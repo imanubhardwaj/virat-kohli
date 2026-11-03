@@ -12,7 +12,7 @@ export function Hero() {
     <div className="shell hero-in" style={{ opacity: Math.max(0, 1 - off / 700) }}>
       <p className="eyebrow"><span className="live-dot" />INDIA’S NO. 18 · AN INDEPENDENT FAN TRIBUTE</p>
       <h1 id="hero-h"><span>VIRAT</span><span className="outline">KOHLI</span></h1>
-      <p className="hero-lede">Built for the chase. <em>Fifteen years of fire, focus and the impossible made routine.</em></p>
+      <p className="hero-lede">Built for the chase. <em>Eighteen years of fire, focus and the impossible made routine.</em></p>
       <div className="hero-cta"><a className="button gold" href="#theater">Watch the greatest innings <span>▶</span></a><a className="button ghost" href="#innings">Relive the innings <span>↓</span></a></div>
     </div>
     <span className="hero-18" aria-hidden="true">18</span>
