@@ -1,14 +1,40 @@
-import { useState } from 'react';
-import { Header, Hero, Numbers, WorldCup, Records, Closing, Footer } from './components/Sections.jsx';
+import { useEffect, useState } from 'react';
+import { Preloader, Header, Ticker, Palette, Footer } from './components/Chrome.jsx';
+import { Hero, Numbers, Feature } from './components/Hero.jsx';
 import Innings from './components/Innings.jsx';
-import Journey from './components/Journey.jsx';
-import DetailDialog from './components/DetailDialog.jsx';
+import Theater from './components/Theater.jsx';
+import Vault from './components/Vault.jsx';
+import { Timeline, Why18, Stats, Gallery } from './components/Story.jsx';
+import { FanZone, Closing } from './components/Fan.jsx';
+import DetailDialog, { Lightbox } from './components/Dialogs.jsx';
+
+const GALLERY = ['sydney', 'captain', 'leaves', 'champions', 'perth', 'khelratna', 'batting', 'trent', 'ahmedabad', 'india', 'stadium', 'early', 'arjuna', 'perth2'];
+
 export default function App() {
-  const [menuOpen,setMenuOpen]=useState(false),[detail,setDetail]=useState(null);
-  return <><a className="skip-link" href="#main">Skip to content</a>
-    <Header menuOpen={menuOpen} onMenuToggle={()=>setMenuOpen(v=>!v)} onNavigate={()=>setMenuOpen(false)}/>
-    <main id="main"><Hero/><Numbers/><Innings onSelect={innings=>setDetail({type:'innings',innings})}/><WorldCup onOpen={()=>setDetail({type:'world-cup'})}/><Journey/><Records/><Closing/></main>
-    <Footer onOpenCredits={()=>setDetail({type:'credits'})}/>
-    {detail&&<DetailDialog key={detail.innings?.id||detail.type} detail={detail} onClose={()=>setDetail(null)}/>}
+  const [detail, setDetail] = useState(null), [lb, setLb] = useState(null), [pal, setPal] = useState(false), [req, setReq] = useState(null);
+  useEffect(() => {
+    const k = e => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); setPal(v => !v); } else if (e.key === '/' && !/input|textarea/i.test(document.activeElement?.tagName)) { e.preventDefault(); setPal(true); } };
+    window.addEventListener('keydown', k); return () => window.removeEventListener('keydown', k);
+  }, []);
+  const openInnings = innings => setDetail({ type: 'innings', innings });
+  return <>
+    <a className="skip-link" href="#main">Skip to content</a>
+    <Preloader />
+    <Header onPalette={() => setPal(true)} />
+    <main id="main">
+      <Hero /><Ticker /><Numbers />
+      <Innings onSelect={openInnings} />
+      <Feature onOpen={() => setDetail({ type: 'world-cup' })} />
+      <Theater request={req} />
+      <Vault />
+      <Timeline /><Why18 />
+      <Stats />
+      <Gallery keys={GALLERY} onOpen={setLb} />
+      <FanZone /><Closing />
+    </main>
+    <Footer onCredits={() => setDetail({ type: 'credits' })} />
+    <Palette open={pal} onClose={() => setPal(false)} onOpenInnings={openInnings} onPlay={id => setReq({ id, n: Date.now() })} />
+    {detail && <DetailDialog key={detail.innings?.id || detail.type} detail={detail} onClose={() => setDetail(null)} />}
+    {lb !== null && <Lightbox keys={GALLERY} index={lb} setIndex={setLb} onClose={() => setLb(null)} />}
   </>;
 }

@@ -22,13 +22,14 @@ The production app is static HTML, CSS and JavaScript in `dist/`. Upload that di
 
 ## Experience
 
-- Real, high-resolution hero photograph (1302 × 1997 pixels).
-- Four iconic innings, filterable by India / RCB, with accessible story dialogs and links to official coverage.
-- 2024 T20 World Cup final feature and a detailed match story.
-- Four photo-based career chapters with arrow-key, Home and End navigation.
-- Dated record milestones, with sources, instead of potentially stale live totals.
-- Responsive mobile menu, reduced-motion support, focus restoration, native modal focus containment and image failure fallbacks.
-- Photo credits and licence links inside the site.
+- Full-bleed cinematic hero from a 4928 × 3264 source, served via responsive `srcset` (replaces the blurry crop).
+- Intro splash, scroll progress, active-section nav, records ticker and a Cmd/Ctrl+K (or `/`) search palette.
+- 13 innings across ODI, Test, T20I and IPL, filterable, each with a story dialog and an embedded official video where one exists.
+- Video theatre: 25 official films (ICC, Star Sports, RCB, ECB, cricket.com.au, ACC) via YouTube's privacy-enhanced player, with category filters.
+- Record vault: 38 dated milestones with format filters and search.
+- 23-moment timeline, the story of the number 18, per-format career stats, a 14-photo gallery with keyboard lightbox.
+- Fan zone: a 10-question quiz and a cheer wall (stored only in the visitor's browser).
+- Accessible dialogs, reduced-motion support, responsive down to phones.
 
 ## Sources and assets
 
@@ -40,7 +41,7 @@ All photographs are free-licensed Wikimedia Commons assets. They remain on Wikim
 - Bengaluru: Aniket Suryavanshi, CC BY 2.0, Chinnaswamy Stadium, March 2017.
 - World champions: Prime Minister's Office, Government of India, GODL-India, team reception in New Delhi, July 2024. This is a homecoming photograph, not the on-field trophy ceremony.
 
-Photos illustrate the chapters; captions give their actual dates. No paid stock, generated player likeness, video rehosting or 3D assets are used. Fonts are Barlow Condensed and DM Sans from Google Fonts (SIL Open Font License). Photos and fonts require an internet connection; system font fallbacks and photo source links remain available if they fail.
+Photos illustrate the chapters; captions give their actual dates. No paid stock, generated likeness or rehosted video is used; videos are embedded from publishers. Fonts are Barlow Condensed and DM Sans from Google Fonts (SIL Open Font License). Photos and fonts require an internet connection; system font fallbacks and photo source links remain available if they fail.
 
 Cricket sources are linked in `src/data.js` and in the page. ICC reports support the 2008/2011 chapters, Melbourne 2022, the 50th ODI century, the 2023 World Cup and the 2024 T20 World Cup final. IPL reports support the Bengaluru innings and 973-run season. The numbers are expressly historical milestones, not current career totals. Highlights open on the official publisher's site; availability is controlled by that publisher.
 
@@ -48,7 +49,7 @@ Cricket sources are linked in `src/data.js` and in the page. ICC reports support
 
 - `src/App.jsx`: application state and composition.
 - `src/components/`: sections, filters, journey, photography and dialogs.
-- `src/data.js`: cricket content and source links.
+- `src/data/`: innings, records, videos, timeline, stats, quiz and sources.
 - `src/photos.json`: free image metadata and licence attribution.
 - `src/styles.css`: layout, India-inspired palette and responsive rules.
 - `public/assets/favicon.svg`: original number 18 favicon.

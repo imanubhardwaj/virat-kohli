@@ -1,8 +1,0 @@
-import {useEffect,useRef} from 'react';
-import {Credits,WorldCupStory} from './Stories';
-function InningsStory({innings:i}){return <><h2 id="dialog-title">{i.title}</h2><p className="dialog-lead">{i.opponent} · {i.location}<br/>{i.date}</p><div className="dialog-stat"><strong>{i.score}</strong><span>RUNS<br/>{i.balls} BALLS</span></div><p>{i.description}</p><p className="dialog-result">{i.result}</p><a className="button button-blue" href={i.source} target="_blank" rel="noreferrer">{i.linkLabel} ↗</a><p className="data-note">Opens the official publisher’s website.</p></>}
-export default function DetailDialog({detail,onClose}){const dialog=useRef(null),close=useRef(null);
- useEffect(()=>{const trigger=document.activeElement,el=dialog.current;el.showModal();document.body.classList.add('body-locked');close.current.focus();return()=>{el.close();document.body.classList.remove('body-locked');trigger?.focus();};},[]);
- function backdrop(e){if(e.target!==dialog.current)return;const r=dialog.current.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)onClose();}
- return <dialog ref={dialog} aria-labelledby="dialog-title" onClick={backdrop} onCancel={e=>{e.preventDefault();onClose();}}><div className="dialog-top"><span className="eyebrow">{detail.type==='innings'?detail.innings.competition:detail.type==='world-cup'?'2024 / T20 WORLD CUP FINAL':'THE SOURCES & THE PEOPLE'}</span><button ref={close} className="icon-button" id="dialog-close" aria-label="Close dialog" onClick={onClose}>×</button></div><div id="dialog-body">{detail.type==='innings'?<InningsStory innings={detail.innings}/>:detail.type==='world-cup'?<WorldCupStory/>:<Credits/>}</div></dialog>
-}
