@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { records, innings, videos } from '../data';
 import { reduced, useScrollY } from '../lib.jsx';
 
-export const NAV = [['innings','Innings'],['theater','Watch'],['records','Records'],['journey','Journey'],['stats','Numbers'],['gallery','Gallery'],['fan','Fan zone']];
+export const NAV = [['innings','Innings'],['theater','Watch'],['records','Records'],['journey','Journey'],['stats','Numbers'],['gallery','Gallery'],['fan','Fan zone'],['support','Support']];
 
 export function Preloader() {
   const [state, setState] = useState(() => { try { return sessionStorage.getItem('vk-intro') || reduced() ? 'gone' : 'on'; } catch { return 'on'; } });

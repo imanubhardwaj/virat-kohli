@@ -6,6 +6,7 @@ import Theater from './components/Theater.jsx';
 import Vault from './components/Vault.jsx';
 import { Timeline, Why18, Stats, Gallery } from './components/Story.jsx';
 import { FanZone, Closing } from './components/Fan.jsx';
+import Donate from './components/Donate.jsx';
 import DetailDialog, { Lightbox } from './components/Dialogs.jsx';
 
 const GALLERY = ['sydney', 'captain', 'leaves', 'champions', 'perth', 'khelratna', 'batting', 'trent', 'ahmedabad', 'india', 'stadium', 'early', 'arjuna', 'perth2'];
@@ -30,7 +31,7 @@ export default function App() {
       <Timeline /><Why18 />
       <Stats />
       <Gallery keys={GALLERY} onOpen={setLb} />
-      <FanZone /><Closing />
+      <FanZone /><Donate /><Closing />
     </main>
     <Footer onCredits={() => setDetail({ type: 'credits' })} />
     <Palette open={pal} onClose={() => setPal(false)} onOpenInnings={openInnings} onPlay={id => setReq({ id, n: Date.now() })} />

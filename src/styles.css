@@ -370,3 +370,39 @@ dialog.lightbox[open]{display:grid;grid-template-columns:72px 1fr 72px;align-ite
   html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
   .reveal{opacity:1;transform:none}.ticker-track{animation:none}
 }
+
+/* Donate */
+.donate{padding-block:120px;background:radial-gradient(70% 60% at 20% 0,#f2c14e14,transparent 60%),var(--bg2);border-top:1px solid var(--line)}
+.donate-note{font-size:14px;line-height:1.7;color:#d4daef;border-left:3px solid var(--gold);background:var(--card);padding:16px 20px;max-width:760px;margin-bottom:40px}
+.donate-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.dcard{background:var(--card);border:1px solid var(--line);padding:28px;display:flex;flex-direction:column;gap:14px;align-items:flex-start;transition:border-color .3s,transform .4s var(--ease)}
+.dcard:hover{border-color:var(--gold);transform:translateY(-4px)}
+.dcard h3{font-size:22px;letter-spacing:-.3px;line-height:1.2}.dcard p{font-size:14px;line-height:1.6;color:#b8c2e0}.dcard small{font-size:12px;color:var(--mute);line-height:1.6}
+.dcard code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:var(--bg);border:1px solid var(--line);padding:10px 12px;width:100%;color:var(--gold)}
+.dcard code.addr{word-break:break-all;line-height:1.5}
+.dcard-act{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:auto}
+.copy{border:1px solid var(--line);padding:12px 18px;font-size:12px;font-weight:700;transition:all .2s;min-width:92px}.copy:hover{border-color:var(--gold);color:var(--gold)}
+.qr{width:200px;height:200px;flex-shrink:0;background:#fff;padding:10px;border-radius:6px}.qr svg{width:100%;height:100%;display:block}.qr-empty{background:var(--bg3)}
+@media(max-width:860px){.donate{padding-block:80px}}
+
+.chain{display:grid;gap:6px;width:100%;font-size:11px;letter-spacing:2px;font-weight:700;color:var(--mute)}
+.chain select{appearance:none;-webkit-appearance:none;width:100%;background:var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%23f2c14e' stroke-width='2'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 16px center;border:1px solid var(--line);color:var(--ink);font:inherit;font-size:15px;font-weight:600;letter-spacing:0;padding:14px 44px 14px 16px;border-radius:0;cursor:pointer;transition:border-color .2s}
+.chain select:hover,.chain select:focus{border-color:var(--gold);outline:none}
+.chain select:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.chain option{background:var(--card);color:var(--ink)}
+
+.donate-grid{align-items:start;grid-template-columns:minmax(280px,.8fr) 1.4fr}
+.crypto-body{display:grid;grid-template-columns:200px 1fr;gap:26px;width:100%;align-items:start}
+.crypto-info{display:grid;gap:14px;align-content:start;min-width:0}
+.crypto-info .dcard-act{margin-top:0}
+@media(max-width:900px){.donate-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.crypto-body{grid-template-columns:1fr;justify-items:center}.crypto-info{width:100%}}
+
+.donate-grid{align-items:stretch}
+.field{display:flex;align-items:stretch;width:100%;background:var(--bg);border:1px solid var(--line);transition:border-color .2s}
+.field:focus-within,.field:hover{border-color:#ffffff40}
+.field code{flex:1;min-width:0;border:0;background:none;align-self:center;padding:14px 16px;overflow-wrap:anywhere}
+.field .copy{min-width:84px;border:0;border-left:1px solid var(--line);padding:0 18px;background:#ffffff08}
+.field .copy:hover{background:var(--gold);color:#101733;border-color:var(--gold)}
+.dcard.crypto{align-items:stretch}
+@media(max-width:560px){.crypto-info{justify-items:stretch}}
