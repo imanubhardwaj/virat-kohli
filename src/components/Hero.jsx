@@ -1,17 +1,21 @@
 import { photos } from '../data';
-import { CountUp, Reveal, srcSet, thumb, useScrollY, reduced } from '../lib.jsx';
+import { CountUp, Reveal, srcSet, imgSrc, useScrollY, reduced } from '../lib.jsx';
 import Photo from './Photo';
 
 export function Hero() {
   const y = useScrollY(), p = photos.sydney, off = reduced() ? 0 : Math.min(y, 900);
   return <section className="hero" id="home" aria-labelledby="hero-h">
     <div className="hero-bg" style={{ transform: `translate3d(0,${off * 0.22}px,0) scale(1.06)` }}>
-      <img src={thumb(p.src, 1920, p.width)} srcSet={srcSet(p, [960, 1280, 1920, 2560])} sizes="100vw" alt={p.alt} width={p.width} height={p.height} fetchPriority="high" decoding="async" />
+      <picture>
+        <source type="image/avif" srcSet={srcSet(p, undefined, 'avif')} sizes="100vw" />
+        <source type="image/webp" srcSet={srcSet(p, undefined, 'webp')} sizes="100vw" />
+        <img src={imgSrc(p, 1920)} srcSet={srcSet(p)} sizes="100vw" alt={p.alt} width={p.width} height={p.height} fetchPriority="high" decoding="async" />
+      </picture>
     </div>
     <div className="hero-shade" aria-hidden="true" />
     <div className="shell hero-in" style={{ opacity: Math.max(0, 1 - off / 700) }}>
       <p className="eyebrow"><span className="live-dot" />INDIA’S NO. 18 · AN INDEPENDENT FAN TRIBUTE</p>
-      <h1 id="hero-h"><span>VIRAT</span><span className="outline">KOHLI</span></h1>
+      <h1 id="hero-h"><span>VIRAT</span>{' '}<span className="outline">KOHLI</span></h1>
       <p className="hero-lede">Built for the chase. <em>Eighteen years of fire, focus and the impossible made routine.</em></p>
       <div className="hero-cta"><a className="button gold" href="#theater">Watch the greatest innings <span>▶</span></a><a className="button ghost" href="#innings">Relive the innings <span>↓</span></a></div>
     </div>

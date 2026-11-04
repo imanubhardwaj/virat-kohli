@@ -2,6 +2,14 @@
 
 A standalone React + Vite fan tribute with an India-blue, ivory and saffron design. This is a separate project from the Messi website.
 
+## SEO and deployment
+
+- `pnpm build` runs three steps: the client build, an SSR build, then `scripts/prerender.mjs`, which writes real HTML for `/`, `/innings/<id>/` (13 pages), `404.html`, `sitemap.xml` and `robots.txt`. Crawlers get full content without running JavaScript.
+- The canonical origin is `https://www.viratkohli.world`. Build for another origin with `SITE_URL=https://example.com pnpm build`.
+- The host must serve `dist/` as static files, map `/innings/<id>/` to its `index.html`, serve `404.html` for unknown paths, and redirect the apex domain (`viratkohli.world`) to `www`.
+- Every page has a unique title and description, a canonical URL, Open Graph and Twitter tags. The home page carries WebSite, Organization, WebPage, Person, ItemList and FAQPage JSON-LD; innings pages carry Article and BreadcrumbList. The FAQ JSON-LD is generated from the same `src/data/faq.js` that renders the visible FAQ.
+- After deploying: add the property in Google Search Console and Bing Webmaster Tools, submit `/sitemap.xml`, and run the Rich Results Test on `/` and one innings page.
+
 ## Run locally
 
 Requires Node.js 20.19+ or 22.12+ (supported Vite versions), and pnpm.

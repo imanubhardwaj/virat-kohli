@@ -1,3 +1,4 @@
+import { track } from '../analytics.js';
 import { useState } from 'react';
 import { quiz } from '../data';
 import { Reveal, useLocal } from '../lib.jsx';
@@ -5,9 +6,9 @@ import { Reveal, useLocal } from '../lib.jsx';
 export function Quiz() {
   const [i, setI] = useState(0), [pick, setPick] = useState(null), [score, setScore] = useState(0), [best, setBest] = useLocal('vk-quiz-best', 0);
   const done = i >= quiz.length, q = quiz[i];
-  const choose = n => { if (pick !== null) return; setPick(n); if (n === q.c) setScore(s => s + 1); };
-  const next = () => { const last = i + 1 >= quiz.length; if (last) setBest(b => Math.max(b, score)); setI(i + 1); setPick(null); };
-  const reset = () => { setI(0); setPick(null); setScore(0); };
+  const choose = n => { if (pick !== null) return; setPick(n); track('quiz_answer', { question: i + 1, correct: n === q.c }); if (n === q.c) setScore(s => s + 1); };
+  const next = () => { const last = i + 1 >= quiz.length; if (last) { setBest(b => Math.max(b, score)); track('quiz_complete', { score, total: quiz.length }); } setI(i + 1); setPick(null); };
+  const reset = () => { track('quiz_restart'); setI(0); setPick(null); setScore(0); };
   const rank = s => s === quiz.length ? 'Number 18 himself. A perfect score.' : s >= 8 ? 'Chase-master. You know your Kohli.' : s >= 5 ? 'Solid opener. A few more overs in the middle.' : 'Debutant. Head to the Record Vault and try again.';
   return <div className="quiz" aria-live="polite">
     {!done ? <>
@@ -21,9 +22,9 @@ export function Quiz() {
 
 export function CheerWall() {
   const [cheers, setCheers] = useLocal('vk-cheers', 0), [msgs, setMsgs] = useLocal('vk-msgs', []), [text, setText] = useState(''), [pop, setPop] = useState(0);
-  const send = e => { e.preventDefault(); const t = text.trim().slice(0, 140); if (!t) return; setMsgs(m => [{ t, d: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) }, ...m].slice(0, 20)); setText(''); };
+  const send = e => { e.preventDefault(); const t = text.trim().slice(0, 140); if (!t) return; setMsgs(m => [{ t, d: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) }, ...m].slice(0, 20)); setText(''); track('wall_message_add', { length: t.length }); };
   return <div className="cheer">
-    <div className="cheer-btn"><button onClick={() => { setCheers(c => c + 1); setPop(p => p + 1); }} aria-label="Cheer for Virat"><span key={pop} className="pop" aria-hidden="true">18</span>CHEER</button><p><b>{cheers.toLocaleString('en-IN')}</b> cheers from you<br /><small>Saved on this device only</small></p></div>
+    <div className="cheer-btn"><button onClick={() => { track('cheer_click', { total: cheers + 1 }); setCheers(c => c + 1); setPop(p => p + 1); }} aria-label="Cheer for Virat"><span key={pop} className="pop" aria-hidden="true">18</span>CHEER</button><p><b>{cheers.toLocaleString('en-IN')}</b> cheers from you<br /><small>Saved on this device only</small></p></div>
     <form onSubmit={send}><label htmlFor="vk-msg">Your message to number 18</label><textarea id="vk-msg" value={text} maxLength={140} rows={3} onChange={e => setText(e.target.value)} placeholder="The innings I will never forget…" /><div className="cheer-row"><small>{140 - text.length} left</small><button className="button ghost" type="submit">Add to my wall <span>↗</span></button></div></form>
     <ul className="wall">{msgs.length ? msgs.map((m, i) => <li key={i}><p>“{m.t}”</p><small>{m.d} · stored only in this browser</small></li>) : <li className="wall-empty">Your wall is empty. Write the first line.</li>}</ul>
   </div>;

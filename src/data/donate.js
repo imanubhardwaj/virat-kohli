@@ -1,7 +1,7 @@
 // Donations support running this fan site (hosting and upkeep). They do not go to Virat Kohli.
 // UPI card shows when upi.id is set. `qr` is the payee's own QR image (decodes to the same UPI ID); omit it to auto-generate one.
 export const donate = {
-  upi: { id: 'mailmahima4@okicici', name: 'Mahima Sharma', qr: './assets/upi-qr.png' },
+  upi: { id: 'mailmahima4@okicici', name: 'Mahima Sharma', qr: '/assets/upi-qr.png' },
   paypal: 'https://paypal.me/immanubhardwaj',
   // `label` is what the dropdown shows; order here is the dropdown order.
   crypto: [

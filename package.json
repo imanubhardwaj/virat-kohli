@@ -6,9 +6,9 @@
   "description": "An independent Virat Kohli tribute built with React and Vite",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && vite build --ssr src/entry-server.jsx --outDir .ssr && node scripts/prerender.mjs",
     "preview": "vite preview",
-    "check": "vite build"
+    "check": "pnpm build"
   },
   "dependencies": {
     "qrcode": "^1.5.4",
@@ -16,6 +16,7 @@
     "react-dom": "19.3.1"
   },
   "devDependencies": {
+    "sharp": "^0.35.5",
     "vite": "7.3.7"
   },
   "engines": {

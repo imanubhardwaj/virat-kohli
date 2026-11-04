@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { photos, sources, videos } from '../data';
-import { thumb, srcSet } from '../lib.jsx';
+import { imgSrc, srcSet } from '../lib.jsx';
 import { VideoEmbed } from './Theater';
 
 function useModal(onClose) {
@@ -21,6 +21,7 @@ function InningsStory({ i }) {
     <div className="dialog-stat"><strong>{i.score}</strong><span>RUNS<br />{i.balls} BALLS</span></div>
     <p>{i.description}</p><p className="dialog-result">{i.result}</p>
     {i.video && <VideoEmbed id={i.video} title={`${i.score} · ${i.location}`} />}
+    <a className="text-link" href={`/innings/${i.id}/`}>Open this innings as its own page ↗</a>
     {i.source && <a className="button gold" href={i.source} target="_blank" rel="noreferrer">{i.linkLabel} ↗</a>}
     <p className="note">{i.source ? 'Opens the official publisher’s website.' : i.video ? 'Video from the official publisher’s YouTube channel.' : 'Photographs from this era are in the gallery.'}</p>
   </>;
@@ -36,7 +37,7 @@ export function WorldCupStory() {
 function Credits() {
   const vids = [...new Set(videos.map(v => v.by))];
   return <><h2 id="dialog-title">Behind the tribute.</h2><p>An independent fan project celebrating selected career moments. Statistics describe the events and seasons shown, rather than live totals.</p>
-    <h3>Free photographs</h3><p>Photographs are served by Wikimedia Commons and resized by its image service. No AI-generated likenesses are used.</p>
+    <h3>Free photographs</h3><p>Photographs are served by Wikimedia Commons and resized by its image service. No AI-generated likenesses are used. The hero photograph is also hosted on this site as resized copies (AVIF, WebP, JPEG), shared under the same CC BY-SA 2.0 licence.</p>
     <ul className="credits-list">{Object.values(photos).map(p => <li key={p.file}><a href={p.source} target="_blank" rel="noreferrer">{p.caption} ↗</a><p>{p.author} · <a href={p.licenseUrl} target="_blank" rel="noreferrer">{p.license}</a></p></li>)}</ul>
     <h3>Videos</h3><p>All films are official uploads, embedded from their publishers’ YouTube channels: {vids.join(', ')}. They are not hosted or copied here. Ownership remains with the publishers.</p>
     <h3>Cricket sources</h3><ul className="credits-list">{[['2008 and 2011 World Cup chapters', sources.beginnings], ['Melbourne 2022 report', sources.mcg], ['Bengaluru 2016 match report', sources.ipl], ['The 50th ODI century', sources.fifty], ['2023 World Cup records', sources.worldCup], ['IPL season record', sources.season], ['2024 final report', sources.final], ['T20I farewell', sources.farewell]].map(([l, u]) => <li key={u}><a href={u} target="_blank" rel="noreferrer">{l} ↗</a></li>)}</ul>
@@ -60,7 +61,7 @@ export function Lightbox({ keys, index, setIndex, onClose }) {
   return <dialog ref={dialog} className="lightbox" aria-label="Photo viewer" onClick={backdrop} onCancel={e => { e.preventDefault(); onClose(); }}>
     <button ref={close} className="icon-button lb-close" aria-label="Close viewer" onClick={onClose}>×</button>
     <button className="lb-nav prev" aria-label="Previous photo" onClick={() => go(-1)}>←</button>
-    <figure><img key={keys[index]} src={thumb(p.src, 1920, p.width)} srcSet={srcSet(p, [960, 1280, 1920, 2560])} sizes="100vw" alt={p.alt} /><figcaption><b>{p.caption}</b><span>{index + 1} / {n} · <a href={p.source} target="_blank" rel="noreferrer">{p.author} · {p.license} ↗</a></span></figcaption></figure>
+    <figure><img key={keys[index]} src={imgSrc(p, 1920)} srcSet={srcSet(p, [960, 1280, 1920, 2560])} sizes="100vw" alt={p.alt} /><figcaption><b>{p.caption}</b><span>{index + 1} / {n} · <a href={p.source} target="_blank" rel="noreferrer">{p.author} · {p.license} ↗</a></span></figcaption></figure>
     <button className="lb-nav next" aria-label="Next photo" onClick={() => go(1)}>→</button>
   </dialog>;
 }

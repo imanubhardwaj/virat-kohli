@@ -6,8 +6,14 @@ export function thumb(src, w, width) {
   if (!m || (width && w >= width)) return src;
   return `${m[1]}/thumb/${m[2]}/${m[3]}/${w}px-${m[3]}`;
 }
-export function srcSet(p, widths = [640, 960, 1280, 1920, 2560]) {
+export function srcSet(p, widths = [640, 960, 1280, 1920, 2560], ext = 'jpg') {
+  if (p.local) return p.local.widths.map(w => `${p.local.base}-${w}.${ext} ${w}w`).join(', ');
   return widths.filter(w => w < p.width).map(w => `${thumb(p.src, w, p.width)} ${w}w`).concat(`${p.src} ${p.width}w`).join(', ');
+}
+// Best single URL for roughly `w` px: self-hosted copy when available, else a Wikimedia thumbnail.
+export function imgSrc(p, w) {
+  if (p.local) { const x = p.local.widths.find(v => v >= w) || p.local.widths.at(-1); return `${p.local.base}-${x}.jpg`; }
+  return thumb(p.src, w, p.width);
 }
 export const reduced = () => typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -32,7 +38,7 @@ export function Reveal({ as: Tag = 'div', delay = 0, className = '', children, .
 
 export function CountUp({ to, duration = 1600, format = n => Math.round(n).toLocaleString('en-IN'), suffix = '' }) {
   const [ref, seen] = useInView({ threshold: 0.6 });
-  const [v, setV] = useState(0);
+  const [v, setV] = useState(typeof window === 'undefined' ? to : 0);
   useEffect(() => {
     if (!seen) return;
     if (reduced()) { setV(to); return; }

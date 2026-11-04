@@ -57,7 +57,19 @@
     "width": 4928,
     "height": 3264,
     "src": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Virat_Kohli_January_2015.jpg",
-    "source": "https://commons.wikimedia.org/wiki/File:Virat_Kohli_January_2015.jpg"
+    "source": "https://commons.wikimedia.org/wiki/File:Virat_Kohli_January_2015.jpg",
+    "local": {
+      "base": "/assets/hero/hero",
+      "widths": [
+        640,
+        960,
+        1280,
+        1920,
+        2560
+      ],
+      "height": 3264,
+      "note": "Resized copies of the Commons original, shared under CC BY-SA 2.0"
+    }
   },
   "trent": {
     "file": "Virat Kohli after his century at Trent Bridge.jpg",

@@ -1,0 +1,10 @@
+{
+  "name": "Virat Kohli World",
+  "short_name": "VK World",
+  "description": "An independent fan tribute to Virat Kohli: innings, videos, records and timeline.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050a1c",
+  "theme_color": "#050a1c",
+  "icons": [{ "src": "/assets/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

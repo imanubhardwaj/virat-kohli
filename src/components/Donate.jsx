@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { donate } from '../data/donate.js';
 import { Reveal } from '../lib.jsx';
+import { track } from '../analytics.js';
 
 function QR({ text, label }) {
   const [svg, setSvg] = useState('');
@@ -16,6 +17,7 @@ function Copy({ text, what, primary = false, children = 'Copy' }) {
   const [ok, setOk] = useState(false);
   const go = async () => {
     try { await navigator.clipboard.writeText(text); } catch { const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); } catch {} t.remove(); }
+    track('support_copy', { what, primary });
     setOk(true); setTimeout(() => setOk(false), 1800);
   };
   return <button className={primary ? 'button gold' : 'copy'} onClick={go} aria-label={`Copy ${what}`}>{ok ? 'Copied ✓' : children}{primary && <span aria-hidden="true">⧉</span>}</button>;
@@ -41,7 +43,7 @@ function Field({ id, label, value, what }) {
   const long = value.length > 26;
   return <div className="dfield"><span className="flabel" id={id}>{label}</span>
     <div className={`field ${open ? 'open' : ''}`} aria-labelledby={id}>
-      {long ? <button type="button" className="code" aria-expanded={open} aria-label={open ? `${what}: ${value}. Click to collapse` : `${what}, shortened. Click to show the full address`} title={open ? 'Click to collapse' : value} onClick={() => setOpen(o => !o)}>{open ? value : short(value)}</button> : <code className="code">{value}</code>}
+      {long ? <button type="button" className="code" aria-expanded={open} aria-label={open ? `${what}: ${value}. Click to collapse` : `${what}, shortened. Click to show the full address`} title={open ? 'Click to collapse' : value} onClick={() => { track('support_address_toggle', { what, expanded: !open }); setOpen(o => !o); }}>{open ? value : short(value)}</button> : <code className="code">{value}</code>}
       <Copy text={value} what={what} />
     </div></div>;
 }
@@ -57,13 +59,13 @@ export default function Donate() {
       {upi.id && <Card delay={0} label="UPI · INDIA" title="Pay with UPI" intro={<p>Scan with Google Pay, PhonePe, Paytm or any UPI app.</p>}
         visual={upi.qr ? <div className="qr"><img src={upi.qr} alt={`UPI QR code for ${upi.id}`} width="640" height="640" loading="lazy" /></div> : <QR text={upiLink} label="UPI payment" />}
         field={<Field id="l-upi" label="UPI ID" value={upi.id} what="UPI ID" />} note="On a phone, tap the button to open your UPI app."
-        action={<a className="button gold" href={upiLink}>Open UPI app <span aria-hidden="true">↗</span></a>} />}
+        action={<a className="button gold" href={upiLink} onClick={() => track('support_upi_open')}>Open UPI app <span aria-hidden="true">↗</span></a>} />}
       <Card delay={80} label="PAYPAL · WORLDWIDE" title="Pay with PayPal" intro={<p>Any amount, from cards or your PayPal balance.</p>}
-        visual={<div className="qr pp"><img src="./assets/paypal.svg" alt="" width="96" height="96" /><b>PayPal</b></div>}
+        visual={<div className="qr pp"><img src="/assets/paypal.svg" alt="" width="96" height="96" /><b>PayPal</b></div>}
         field={<Field id="l-pp" label="PayPal link" value={paypal.replace('https://', '')} what="PayPal link" />} note="Opens PayPal in a new tab."
-        action={<a className="button gold" href={paypal} target="_blank" rel="noopener noreferrer">Donate via PayPal <span aria-hidden="true">↗</span></a>} />
+        action={<a className="button gold" href={paypal} target="_blank" rel="noopener noreferrer" onClick={() => track('support_paypal_click')}>Donate via PayPal <span aria-hidden="true">↗</span></a>} />
       <Card delay={160} className="crypto" label="CRYPTO · MULTI-CHAIN" title="Pay with crypto"
-        headRight={<label className="chain"><span className="sr">Network</span><select id="chain-select" aria-label="Network" value={c.id} onChange={e => setChain(e.target.value)}>{crypto.map(x => <option key={x.id} value={x.id}>{x.label}</option>)}</select></label>}
+        headRight={<label className="chain"><span className="sr">Network</span><select id="chain-select" aria-label="Network" value={c.id} onChange={e => { track('support_network_change', { network: e.target.value }); setChain(e.target.value); }}>{crypto.map(x => <option key={x.id} value={x.id}>{x.label}</option>)}</select></label>}
         intro={<p>Pick a network, then scan the code or copy the address.</p>}
         visual={<QR text={c.uri(c.address)} label={`${c.chain} address`} />}
         field={<Field id="l-addr" label="Address" value={c.address} what={`${c.chain} address`} />} note={c.warn}
