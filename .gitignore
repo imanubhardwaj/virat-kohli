@@ -5,3 +5,4 @@ dist/
 qa/
 .ssr/
 .cache/
+.env.local
